@@ -1,0 +1,46 @@
+<%- include("partials/header.ejs") %>
+<h3 class="query"> "Search for <%= query %>"</h3>
+<% if (locals.searchResults) {%>
+<div class="cards-container">
+  <% for (const data of searchResults){%>
+  <div class="anime-card">
+    <div class="card-header">
+      <a href="/detail?id=<%= data.mal_id %>">
+        <h2><%= data.title %></h2>
+      </a>
+      
+      <h4><%= data.title_english %></h4>
+      <div class="info">
+        <%= data.type ? data.type : "unknown" %>,
+        <%= data.aired.from ? data.aired.from.slice(0, 4) : "unknown" %> |
+        <%= data.status ? data.status : "unknown" %> |
+        <%= data.episodes ? data.episodes : "unknown" %> eps,
+        <%= data.duration ? data.duration : "unknown" %></div>
+      <div class="tags">
+        <% if (! data.genres) {%>
+        <span>No genres</span>
+        <% } else {%>
+        <% for (const genre of data.genres) {%>
+        <span><%= genre.name %></span>
+        <% } }%>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <a href="/detail?id=1"><img class="poster" src=<%=data.images.jpg.image_url %> alt="Poster"></a>
+      <div class="description">
+        <%= data.synopsis %>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <span class="rating">⭐ <%= data.score %></span>
+      <span class="members">👤 <%= new Intl.NumberFormat('en', { notation: 'compact' }).format(data.members) %></span>
+      <button>Add to My List</button>
+    </div>
+  </div>
+  <% } %>
+</div>
+<% } %>
+
+<%- include("partials/footer.ejs") %>
