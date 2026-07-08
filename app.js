@@ -32,6 +32,14 @@ app.use((req, res, next) => {
 });
 
 app.use(express.static("public"));
+app.use((err, req, res, next) => {
+    console.error("[System Error]:", err.stack); 
+    
+    res.status(500).render("error.ejs", { 
+        pageCss: "error.css", 
+        error: "Đã có lỗi xảy ra khi kết nối tới máy chủ Jikan. Vui lòng thử lại sau!" 
+    });
+});
 
 
 app.use("/", animeRoutes);
